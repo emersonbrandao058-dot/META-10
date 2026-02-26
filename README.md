@@ -1,72 +1,78 @@
-# Portal do Aluno — Meta10 (Protótipo)
+# 🎓 Meta10 - Plataforma Educacional
 
-Protótipo visual (front-end) do **Portal do Aluno** para o **Meta10 Espaço Pedagógico**.  
-Tela de login estilo “plataforma premium”, com layout dividido (texto institucional + imagem de fundo + card de acesso).
-
-> ⚠️ Este projeto é apenas a **base visual**. Não possui autenticação real nem banco de dados ainda.
+Sistema web educacional desenvolvido para gerenciamento de alunos, professores e secretaria, com foco em organização de aulas, progresso e autenticação segura.
 
 ---
 
-## ✅ O que já está pronto
+## 🚀 Sobre o Projeto
 
-- Layout premium responsivo (desktop e mobile)
-- Tela de login com card central
-- Lado esquerdo com texto institucional (“Bem-vindo ao portal”)
-- Lado direito com imagem de fundo + overlay (efeito “fundo institucional”)
-- Estrutura organizada (HTML + CSS + pasta de imagens)
+O Meta10 é uma plataforma educacional que permite:
 
----
+- ✅ Login com autenticação via Firebase
+- 📚 Dashboard do aluno com videoaulas
+- 📈 Controle de progresso e desempenho
+- 👨‍🏫 Área do professor
+- 🏢 Área da secretaria
+- 🔐 Controle de acesso por perfil
 
-## 📁 Estrutura do projeto
-
-meta10/
-├─ index.html
-├─ style.css
-└─ imagens/
-├─ logo.jpg
-└─ crianca.jpg
-
-> **Importante:** os nomes e caminhos das imagens devem bater com o que está no CSS/HTML.
+O sistema foi desenvolvido com foco em organização, usabilidade e integração com banco de dados em tempo real.
 
 ---
 
-## ▶️ Como rodar no computador
+## 🛠 Tecnologias Utilizadas
 
-### Opção 1 — Abrir direto no navegador
-1. Abra a pasta do projeto
-2. Clique duas vezes em `index.html`
-
-### Opção 2 — VS Code (recomendado)
-1. Instale a extensão **Live Server**
-2. Clique com botão direito no `index.html`
-3. Selecione **Open with Live Server**
-
----
-
-## 🌐 Publicar na web (GitHub Pages)
-
-1. Suba este projeto para um repositório no GitHub
-2. No repositório, vá em **Settings** → **Pages**
-3. Em **Branch**, selecione `main` e `/root`
-4. Clique em **Save**
-
-O GitHub vai gerar um link do tipo:
-
-`https://SEUUSUARIO.github.io/NOME-DO-REPO/`
+- HTML5
+- CSS3
+- JavaScript (ES Modules)
+- Firebase Authentication
+- Firebase Firestore
+- Firebase Storage
+- Git & GitHub
 
 ---
 
-## 🚀 Próximos passos (evolução do sistema)
+## 📂 Estrutura do Projeto
+META10/ │ ├── index.html ├── style.css ├── js/ │   ├── firebase.js │   ├── auth.js │   └── aluno.js │ ├── aluno/ │   └── home.html │ ├── professor/ │   └── dashboard.html │ └── secretaria/ └── dashboard.html
+---
 
-- Tela de cadastro
-- Dashboard do aluno (módulos por série/matéria)
-- Sistema de login real (Firebase/Auth)
-- Cadastro de aulas e vídeos (YouTube não listado ou storage)
-- Progresso do aluno e conclusão de aulas
+## 🔐 Segurança
+
+- Autenticação via Firebase Auth
+- Controle de acesso por perfil
+- Regras do Firestore configuradas
+- API Key protegida por restrição de domínio
 
 ---
 
-## 👤 Autor
+## 📸 Funcionalidades
+
+- Login seguro
+- Redirecionamento por tipo de usuário
+- Listagem dinâmica de aulas
+- Organização por matérias e módulos
+- Interface moderna e responsiva
+
+---
+
+## 💡 Objetivo
+
+Este projeto foi desenvolvido como parte da minha evolução em desenvolvimento web e integração com backend utilizando Firebase.
+
+---
+
+## 👨‍💻 Desenvolvedor
 
 **Emerson Brandão**  
-Protótipo criado para apresentação e validação com o Meta10 Espaço Pedagógico.
+Estudante de Análise e Desenvolvimento de Sistemas  
+Focado em desenvolvimento web e tecnologia.
+
+---
+
+## 📌 Status do Projeto
+
+🚧 Em evolução contínua.
+
+---
+
+AUTOR:
+EMERSON S. BRANDAO

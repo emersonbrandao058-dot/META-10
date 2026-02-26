@@ -61,7 +61,7 @@ btn.addEventListener("click", async () => {
       return;
     }
 
-    msg.innerText = "Seu usuário está sem perfil válido no banco.";
+    msg.innerText = "Ambiente teste.";
   } catch (err) {
     console.error("ERRO FIRESTORE:", err);
     msg.innerText = "Erro ao conectar com banco.";

@@ -15,7 +15,7 @@ html, body {
 }
 
 /* =========================
-   LADO ESQUERDO (PROFISSIONAL)
+   LADO ESQUERDO
    ========================= */
 
 .left {
@@ -75,7 +75,7 @@ html, body {
 }
 
 /* =========================
-   LADO DIREITO (MANTÉM PREMIUM)
+   LADO DIREITO
    ========================= */
 
 .right {
@@ -117,16 +117,25 @@ html, body {
 
 .login-card h2 {
   text-align: center;
-  margin-bottom: 28px;
+  margin-bottom: 22px;
   color: #1e88e5;
   font-weight: 800;
 }
 
-.input-group {
-  margin-bottom: 16px;
+.label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  color: #2b2b2b;
+  margin-bottom: 6px;
 }
 
-.input-group input {
+.input-group {
+  margin-bottom: 14px;
+}
+
+.input-group input,
+.select {
   width: 100%;
   padding: 14px;
   border-radius: 12px;
@@ -134,9 +143,11 @@ html, body {
   outline: none;
   transition: 0.25s;
   font-size: 14px;
+  background: #fff;
 }
 
-.input-group input:focus {
+.input-group input:focus,
+.select:focus {
   border-color: #4caf50;
   box-shadow: 0 0 10px rgba(76, 175, 80, 0.25);
 }
@@ -152,6 +163,7 @@ button {
   cursor: pointer;
   transition: 0.25s;
   font-size: 15px;
+  margin-top: 6px;
 }
 
 button:hover {
@@ -159,8 +171,16 @@ button:hover {
   box-shadow: 0 14px 28px rgba(0,0,0,0.18);
 }
 
+.msg {
+  min-height: 18px;
+  margin-top: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: #d32f2f;
+}
+
 .forgot {
-  margin-top: 14px;
+  margin-top: 10px;
   text-align: center;
   font-size: 13px;
 }
@@ -169,6 +189,14 @@ button:hover {
   text-decoration: none;
   color: #8e24aa;
   font-weight: 600;
+}
+
+.small {
+  margin-top: 14px;
+  font-size: 11px;
+  color: #6b6b6b;
+  text-align: center;
+  line-height: 1.4;
 }
 
 /* =========================

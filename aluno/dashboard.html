@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aluno - Meta10</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#0b1220;
+      --bg2:#0b1b3a;
+      --card: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.14);
+      --txt:#eaf2ff;
+      --muted: rgba(255,255,255,.74);
+
+      --c1:#ff5ea8;
+      --c2:#6c5ce7;
+      --c3:#00d2ff;
+      --c4:#ffd166;
+      --c5:#7CFF6B;
+      --c6:#ff7a59;
+
+      --sideW: 260px;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:Poppins, sans-serif;
+      color: var(--txt);
+      background:
+        radial-gradient(1400px 700px at 12% 10%, rgba(255,94,168,.22), transparent 62%),
+        radial-gradient(1200px 600px at 86% 18%, rgba(0,210,255,.18), transparent 60%),
+        radial-gradient(1100px 600px at 60% 92%, rgba(124,255,107,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg2), var(--bg1));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* =========================
+       APP SHELL (sidebar + main)
+    ========================= */
+    .app{
+      display:flex;
+      min-height:100vh;
+      width:100%;
+    }
+
+    .sidebar{
+      width: var(--sideW);
+      padding: 16px;
+      border-right: 1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.18);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow:auto;
+    }
+
+    .sideBrand{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      padding: 10px 10px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(255,255,255,.06);
+      box-shadow: 0 20px 55px rgba(0,0,0,.18);
+      margin-bottom: 14px;
+    }
+    .sideLogo{
+      width:46px;height:46px;
+      border-radius:16px;
+      display:flex;align-items:center;justify-content:center;
+      font-weight:900;
+      letter-spacing:.5px;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      box-shadow: 0 16px 35px rgba(0,0,0,.35);
+      flex:0 0 auto;
+    }
+    .sideBrand h1{ margin:0; font-size: 14px; line-height:1.1; }
+    .sideBrand p{ margin:2px 0 0; font-size: 11px; color: var(--muted); font-weight:800; }
+
+    .nav{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top: 10px;
+    }
+    .navBtn{
+      width:100%;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.07);
+      color: white;
+      font-weight: 900;
+      padding: 12px 12px;
+      border-radius: 16px;
+      cursor:pointer;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      transition: transform .12s ease, background .12s ease;
+      text-align:left;
+    }
+    .navBtn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.10); }
+    .navBtn.active{
+      background: rgba(0,210,255,.18);
+      border-color: rgba(0,210,255,.40);
+    }
+    .navBtn .left{
+      display:flex;
+      align-items:center;
+      gap:10px;
+    }
+    .navBtn .hint{
+      font-size: 11px;
+      color: rgba(255,255,255,.75);
+      font-weight: 900;
+    }
+
+    .sideActions{
+      margin-top: 14px;
+      display:flex;
+      gap:10px;
+      flex-direction:column;
+    }
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      transition: transform .12s ease, background .12s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.14); }
+    .btn.primary{
+      background: linear-gradient(90deg, var(--c4), var(--c3));
+      border: none;
+      color:#07101f;
+      box-shadow: 0 14px 35px rgba(0,0,0,.25);
+    }
+    .btn.big{
+      padding: 14px 16px;
+      border-radius: 18px;
+      font-size: 13px;
+    }
+
+    .main{
+      flex:1;
+      padding: 16px;
+    }
+
+    /* ✅ MAIS LARGO, MAS ORGANIZADO */
+    .wrap{
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 8px;
+    }
+
+    /* =========================
+       TOPBAR (main)
+    ========================= */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .logo{
+      width:48px; height:48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--c5), var(--c3));
+      box-shadow: 0 16px 35px rgba(0,0,0,.35);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900;
+      letter-spacing:.5px;
+    }
+    .brand h1{ font-size:18px; margin:0; line-height:1.1; }
+    .brand p{ margin:2px 0 0; font-size:12px; color: var(--muted); }
+
+    /* =========================
+       CARDS / HERO / LAYOUT (seu original)
+    ========================= */
+    .hero{
+      display:grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap:14px;
+      margin-bottom: 14px;
+    }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 20px;
+      padding: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 55px rgba(0,0,0,.25);
+      position:relative;
+      overflow:hidden;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(600px 160px at 20% 0%, rgba(255,209,102,.18), transparent 65%),
+                  radial-gradient(700px 220px at 80% 10%, rgba(0,210,255,.14), transparent 70%);
+      pointer-events:none;
+    }
+
+    .hero-left{ display:flex; gap:14px; align-items:center; position:relative; z-index:1; }
+    .avatar{
+      width:72px; height:72px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--c5), var(--c3));
+      display:flex; align-items:center; justify-content:center;
+      font-size:28px;
+      box-shadow: 0 16px 36px rgba(0,0,0,.35);
+      flex:0 0 auto;
+    }
+    .hello h2{ margin:0; font-size:18px; }
+    .badges{ margin-top:8px; display:flex; flex-wrap:wrap; gap:8px; position:relative; z-index:1; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding: 9px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.14);
+      color: white;
+    }
+    .pill.c1{ background: rgba(255,94,168,.20); }
+    .pill.c2{ background: rgba(108,92,231,.20); }
+    .pill.c3{ background: rgba(0,210,255,.16); }
+    .pill.c4{ background: rgba(255,209,102,.20); color:#fff; }
+
+    .mascot{
+      margin-top: 10px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      position:relative;
+      z-index:1;
+    }
+    .mascot .face{
+      width:44px; height:44px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--c1), var(--c4));
+      display:flex; align-items:center; justify-content:center;
+      font-size:22px;
+      box-shadow: 0 12px 26px rgba(0,0,0,.25);
+      flex:0 0 auto;
+    }
+    .mascot .text{
+      font-size: 12px;
+      color: rgba(255,255,255,.85);
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      position:relative;
+      z-index:1;
+    }
+    .mini{
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 20px 55px rgba(0,0,0,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .mini::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(220px 90px at 10% 0%, rgba(124,255,107,.16), transparent 70%),
+                  radial-gradient(220px 90px at 90% 0%, rgba(0,210,255,.14), transparent 70%);
+      pointer-events:none;
+    }
+    .mini .k{ font-size: 12px; color: var(--muted); margin:0; position:relative; z-index:1; font-weight:800; }
+    .mini .v{ font-size: 20px; font-weight: 900; margin:6px 0 0; position:relative; z-index:1; }
+
+    .layout{
+      display:grid;
+      grid-template-columns: 380px minmax(540px, 1fr) 420px;
+      gap: 14px;
+      align-items:start;
+    }
+
+    .section-title{ margin:0 0 10px; font-size: 14px; opacity:.95; position:relative; z-index:1; }
+    .field{ margin-top: 10px; position:relative; z-index:1; }
+    .field label{ display:block; font-size: 12px; color: var(--muted); margin: 0 0 6px; font-weight:900; }
+    select, input{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.24);
+      color: white;
+      outline: none;
+      font-family:Poppins, sans-serif;
+      font-weight:800;
+    }
+
+    .chips{ display:flex; flex-wrap:wrap; gap:8px; margin-top: 10px; position:relative; z-index:1; }
+    .chip{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.10);
+      color: white;
+      font-weight: 900;
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-size: 12px;
+      transition: transform .12s ease, background .12s ease;
+    }
+    .chip:hover{ transform: translateY(-1px); background: rgba(255,255,255,.14); }
+    .chip.active{ background: rgba(0,210,255,.20); border-color: rgba(0,210,255,.40); }
+
+    .progressBox{
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      position:relative;
+      z-index:1;
+    }
+    .progItem{
+      margin-top: 10px;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+    }
+    .progTop{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      font-weight: 900;
+      font-size: 12px;
+    }
+    .bar{
+      margin-top: 9px;
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(0,0,0,.25);
+      border: 1px solid rgba(255,255,255,.12);
+      overflow:hidden;
+    }
+    .bar > div{
+      height:100%;
+      width:0%;
+      background: linear-gradient(90deg, var(--c5), var(--c3), var(--c4), var(--c1));
+      border-radius: 999px;
+    }
+    .progHint{
+      margin-top:7px;
+      font-size: 11px;
+      color: rgba(255,255,255,.78);
+      font-weight: 900;
+    }
+
+    .player-wrap{ padding: 14px; position:relative; z-index:1; }
+    .player-head{
+      display:flex; align-items:center; justify-content:space-between;
+      gap: 10px;
+      margin-bottom: 10px;
+      position:relative;
+      z-index:1;
+    }
+    .player-head h3{ margin:0; font-size: 14px; }
+    .meta{ font-size: 12px; color: var(--muted); font-weight:900; }
+
+    .video-box{
+      border-radius: 20px;
+      overflow:hidden;
+      border: 1px solid rgba(255,255,255,.14);
+      box-shadow: 0 22px 60px rgba(0,0,0,.30);
+      position:relative;
+      background: rgba(0,0,0,.25);
+    }
+
+    .video-box::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      border-radius: 20px;
+      padding: 2px;
+      background: linear-gradient(90deg, var(--c1), var(--c4), var(--c3), var(--c2));
+
+      mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+
+      -webkit-mask:
+        linear-gradient(#000 0 0) content-box,
+        linear-gradient(#000 0 0);
+
+      -webkit-mask-composite: xor;
+      mask-composite: exclude;
+      pointer-events:none;
+    }
+
+    iframe{
+      width:100%;
+      height: 460px;
+      border:0;
+      display:block;
+      background:black;
+    }
+
+    .nextBox{
+      margin-top: 12px;
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      position:relative;
+      overflow:hidden;
+    }
+    .nextBox::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(260px 120px at 10% 0%, rgba(255,94,168,.16), transparent 72%),
+                  radial-gradient(260px 120px at 90% 0%, rgba(124,255,107,.14), transparent 72%);
+      pointer-events:none;
+    }
+    .nextTitle{
+      font-weight: 900;
+      margin:0 0 4px;
+      font-size: 13px;
+      position:relative;
+      z-index:1;
+    }
+    .nextMeta{
+      margin:0;
+      font-size: 12px;
+      color: rgba(255,255,255,.82);
+      font-weight: 800;
+      position:relative;
+      z-index:1;
+    }
+
+    .aulasSide{
+      position: sticky;
+      top: 14px;
+      height: calc(100vh - 28px);
+      display:flex;
+      flex-direction:column;
+      padding: 16px;
+    }
+    .aulasHead{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap: 10px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,.12);
+      position:relative;
+      z-index:1;
+    }
+    .aulasHead h3{
+      margin:0;
+      font-size: 14px;
+      position:relative;
+      z-index:1;
+    }
+    .count{ font-size: 12px; color: var(--muted); font-weight:900; }
+
+    .aulasList{
+      margin-top: 12px;
+      overflow:auto;
+      height: 100%;
+      padding-right: 4px;
+      position:relative;
+      z-index:1;
+    }
+
+    .sections{ display:flex; flex-direction:column; gap: 10px; }
+    details.section{
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      overflow:hidden;
+    }
+    details.section > summary{
+      list-style:none;
+      cursor:pointer;
+      padding: 13px 14px;
+      font-weight: 900;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      user-select:none;
+    }
+    details.section > summary::-webkit-details-marker{ display:none; }
+    .sumLeft{ display:flex; align-items:center; gap:10px; }
+    .badge{
+      padding: 7px 11px;
+      border-radius: 999px;
+      font-size: 11px;
+      font-weight: 900;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.20);
+    }
+    .subSections{
+      padding: 12px 14px 14px;
+      border-top: 1px solid rgba(255,255,255,.12);
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .moduleTitle{
+      font-size: 12px;
+      font-weight: 900;
+      opacity: .98;
+      margin: 4px 0 6px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: 1fr;
+      gap: 12px;
+    }
+
+    .lesson{
+      padding: 14px;
+      border-radius: 22px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease;
+      position:relative;
+      overflow:hidden;
+      min-height: 120px;
+    }
+    .lesson::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background:
+        radial-gradient(220px 90px at 10% 0%, rgba(0,210,255,.12), transparent 70%),
+        radial-gradient(240px 100px at 90% 10%, rgba(255,209,102,.12), transparent 70%);
+      pointer-events:none;
+    }
+    .lesson:hover{ transform: translateY(-2px); background: rgba(255,255,255,.12); }
+
+    .lesson .t{ font-weight: 900; margin: 0 0 6px; position:relative; z-index:1; font-size: 13px; }
+    .lesson .d{ font-size: 12px; color: rgba(255,255,255,.80); margin:0 0 10px; position:relative; z-index:1; font-weight:800; }
+    .tags{ display:flex; gap:6px; flex-wrap:wrap; position:relative; z-index:1; }
+    .tag{
+      font-size: 11px;
+      font-weight: 900;
+      padding: 7px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+    }
+    .tag.pink{ background: rgba(255,94,168,.22); }
+    .tag.blue{ background: rgba(0,210,255,.16); }
+    .tag.yellow{ background: rgba(255,209,102,.22); }
+    .tag.purple{ background: rgba(108,92,231,.22); }
+    .tag.green{ background: rgba(124,255,107,.16); }
+
+    .lesson .go{
+      margin-top: 10px;
+      display:flex; justify-content:space-between; align-items:center;
+      font-size: 12px; color: rgba(255,255,255,.78); font-weight:900;
+      position:relative; z-index:1;
+    }
+
+    /* Confete */
+    #confettiLayer{
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 9999;
+    }
+    .confetti{
+      position:absolute;
+      width: 10px;
+      height: 14px;
+      border-radius: 4px;
+      opacity: .95;
+      transform: translate3d(0,0,0) rotate(0deg);
+      animation: fall 900ms ease-out forwards;
+    }
+    @keyframes fall{
+      0%   { transform: translate3d(var(--x,0), var(--y,0), 0) rotate(0deg); opacity: 1; }
+      100% { transform: translate3d(var(--x2,0), 520px, 0) rotate(360deg); opacity: 0; }
+    }
+
+    /* =========================
+       TABS CONTENT
+    ========================= */
+    .tab{ display:none; }
+    .tab.active{ display:block; }
+
+    .placeholder{
+      padding: 16px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 20px 55px rgba(0,0,0,.18);
+    }
+    .placeholder h2{
+      margin: 0 0 6px;
+      font-size: 16px;
+      font-weight: 900;
+    }
+    .placeholder p{
+      margin: 0;
+      font-size: 12px;
+      color: rgba(255,255,255,.78);
+      font-weight: 800;
+      line-height: 1.45;
+    }
+
+    /* RESPONSIVO */
+    @media (max-width: 1100px){
+      .sidebar{
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        z-index: 50;
+        transform: translateX(-100%);
+        transition: transform .18s ease;
+      }
+      .sidebar.open{ transform: translateX(0); }
+      .main{ padding: 12px; }
+      .wrap{ padding: 0; }
+    }
+
+    @media (max-width: 980px){
+      .hero{ grid-template-columns: 1fr; }
+      .layout{ grid-template-columns: 1fr; }
+      iframe{ height: 320px; }
+      .mini-grid{ grid-template-columns: 1fr; }
+      .nextBox{ flex-direction:column; align-items:flex-start; }
+      .aulasSide{ position: relative; top:auto; height:auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <div id="confettiLayer"></div>
+
+  <div class="app">
+
+    <!-- SIDEBAR / ABAS -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sideBrand">
+        <div class="sideLogo">M10</div>
+        <div>
+          <h1>Portal do Aluno</h1>
+          <p id="subTopSide">Carregando…</p>
+        </div>
+      </div>
+
+      <nav class="nav">
+        <button class="navBtn active" type="button" data-tab="tab-videoaulas">
+          <span class="left">🎬 <span>Videoaulas</span></span>
+          <span class="hint">Aulas</span>
+        </button>
+        <button class="navBtn" type="button" data-tab="tab-questoes">
+          <span class="left">📝 <span>Questões</span></span>
+          <span class="hint">Treinar</span>
+        </button>
+        <button class="navBtn" type="button" data-tab="tab-materiais">
+          <span class="left">📎 <span>Materiais</span></span>
+          <span class="hint">PDFs</span>
+        </button>
+        <button class="navBtn" type="button" data-tab="tab-desempenho">
+          <span class="left">📈 <span>Desempenho</span></span>
+          <span class="hint">Stats</span>
+        </button>
+      </nav>
+
+      <div class="sideActions">
+        <button id="btnRecarregarSide" class="btn" type="button">Recarregar</button>
+        <button id="btnSairSide" class="btn" type="button">Sair</button>
+      </div>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+      <div class="wrap">
+
+        <!-- TOPBAR (main) -->
+        <div class="topbar">
+          <div class="brand">
+            <div class="logo">🎒</div>
+            <div>
+              <h1>Aluno • Dashboard</h1>
+              <p id="subTop">Carregando seus dados...</p>
+            </div>
+          </div>
+
+          <div style="display:flex; gap:10px;">
+            <button id="btnToggleMenu" class="btn" type="button" style="display:none;">☰ Menu</button>
+            <button id="btnRecarregar" class="btn" type="button">Recarregar</button>
+            <button id="btnSair" class="btn" type="button">Sair</button>
+          </div>
+        </div>
+
+        <!-- =========================
+             TAB: VIDEOAULAS (SEU ORIGINAL)
+        ========================= -->
+        <section id="tab-videoaulas" class="tab active">
+          <!-- HERO -->
+          <div class="hero">
+            <div class="card">
+              <div class="hero-left">
+                <div class="avatar">🎒</div>
+                <div class="hello" style="flex:1;">
+                  <h2 id="ola">Olá! 👋</h2>
+                  <div class="badges">
+                    <span class="pill c1" id="badgeTurma">🏫 Turma —</span>
+                    <span class="pill c3" id="badgeMaterias">📚 Matérias —</span>
+                    <span class="pill c2" id="badgeStreak">🔥 Sequência: 0</span>
+                    <span class="pill c4" id="badgeMissao">🎯 Missão: assistir 1 aula</span>
+                  </div>
+
+                  <div class="mascot">
+                    <div class="face" id="mascotFace">🦊</div>
+                    <div class="text" id="mascotText">Tô carregando tudo aqui… já já a gente começa! ✨</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="mini-grid">
+              <div class="mini">
+                <p class="k">Aulas disponíveis</p>
+                <p class="v" id="kpiAulas">0</p>
+              </div>
+              <div class="mini">
+                <p class="k">Assistidas</p>
+                <p class="v" id="kpiAssistidas">0</p>
+              </div>
+              <div class="mini">
+                <p class="k">Pontos</p>
+                <p class="v" id="kpiPontos">0</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- MAIN -->
+          <div class="layout">
+            <!-- ESQUERDA (FILTROS) -->
+            <div class="card">
+              <p class="section-title">Filtros</p>
+
+              <div class="field">
+                <label>Matéria</label>
+                <select id="filtroMateria">
+                  <option value="todas">Todas</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Tipo</label>
+                <select id="filtroTipo">
+                  <option value="todos">Todos</option>
+                  <option value="aula">Aula</option>
+                  <option value="complementar">Complementar</option>
+                  <option value="revisao">Revisão</option>
+                  <option value="simulado">Simulado</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label>Buscar</label>
+                <input id="busca" type="text" placeholder="Digite: frações, história..." />
+              </div>
+
+              <div class="chips">
+                <button class="chip active" type="button" data-chip="tudo">✨ Tudo</button>
+                <button class="chip" type="button" data-chip="novas">🆕 Mais novas</button>
+                <button class="chip" type="button" data-chip="revisao">🧠 Revisão</button>
+                <button class="chip" type="button" data-chip="simulado">🏆 Simulado</button>
+              </div>
+
+              <!-- PROGRESSO -->
+              <div class="progressBox">
+                <p class="section-title" style="margin-bottom:6px;">Progresso por matéria</p>
+                <div id="progressMaterias"></div>
+              </div>
+            </div>
+
+            <!-- MEIO (PLAYER) -->
+            <div>
+              <div class="card player-wrap">
+                <div class="player-head">
+                  <div>
+                    <h3 id="playerTitulo">Selecione uma aula 👇</h3>
+                    <div class="meta" id="playerMeta">Matéria • Módulo • Tipo</div>
+                  </div>
+                  <button id="btnMarcarAssistido" class="btn primary big" type="button">✅ Concluir aula</button>
+                </div>
+
+                <div class="video-box">
+                  <iframe id="player" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+
+                <!-- PRÓXIMA -->
+                <div class="nextBox" id="nextBox" style="display:none;">
+                  <div>
+                    <p class="nextTitle" id="nextTitle">✨ Próxima aula</p>
+                    <p class="nextMeta" id="nextMeta">—</p>
+                  </div>
+                  <button id="btnIrProxima" class="btn primary big" type="button">▶ Começar agora</button>
+                </div>
+              </div>
+
+              <p style="margin:14px 0 0; font-size:12px; color: rgba(255,255,255,.55); font-weight:800;">
+                Dica: YouTube (embed) roda melhor. Drive funciona melhor com /preview.
+              </p>
+            </div>
+
+            <!-- DIREITA (SIDEBAR AULAS) -->
+            <div class="card aulasSide">
+              <div class="aulasHead">
+                <h3>Aulas organizadas</h3>
+                <div class="count" id="countAulas">0 aula(s)</div>
+              </div>
+
+              <div id="listaAulas" class="sections aulasList"></div>
+            </div>
+          </div>
+        </section>
+
+        <!-- =========================
+             TAB: QUESTÕES (placeholder por enquanto)
+        ========================= -->
+        <section id="tab-questoes" class="tab">
+          <div class="placeholder">
+            <h2>📝 Questões</h2>
+            <p>
+              Aqui vai ficar o módulo de questões no mesmo estilo do cliente.
+              Quando você me mandar o <strong>questoes.html</strong> (ou o JS das questões), eu te devolvo ele completo com as correções e integração no Firestore.
+            </p>
+          </div>
+        </section>
+
+        <!-- =========================
+             TAB: MATERIAIS (placeholder)
+        ========================= -->
+        <section id="tab-materiais" class="tab">
+          <div class="placeholder">
+            <h2>📎 Materiais</h2>
+            <p>
+              Aqui vai aparecer a lista de PDFs e arquivos (Firestore/Storage).
+              Assim que você me mandar o arquivo/JS dos materiais, eu monto o fluxo completo.
+            </p>
+          </div>
+        </section>
+
+        <!-- =========================
+             TAB: DESEMPENHO (placeholder)
+        ========================= -->
+        <section id="tab-desempenho" class="tab">
+          <div class="placeholder">
+            <h2>📈 Desempenho</h2>
+            <p>
+              Aqui entra ranking, pontos, sequência e progresso geral.
+              Seu <code>aluno.js</code> já tem pontos/streak — depois a gente só pluga nessa aba.
+            </p>
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- JS DAS ABAS (leve, não mexe na sua lógica do aluno.js) -->
+  <script>
+    const navBtns = document.querySelectorAll(".navBtn");
+    const tabs = document.querySelectorAll(".tab");
+
+    function openTab(tabId){
+      tabs.forEach(t => t.classList.remove("active"));
+      const tab = document.getElementById(tabId);
+      if (tab) tab.classList.add("active");
+
+      navBtns.forEach(b => b.classList.remove("active"));
+      navBtns.forEach(b => {
+        if (b.getAttribute("data-tab") === tabId) b.classList.add("active");
+      });
+
+      // fecha menu no mobile
+      const side = document.getElementById("sidebar");
+      if (side && window.innerWidth <= 1100) side.classList.remove("open");
+    }
+
+    navBtns.forEach(btn => {
+      btn.addEventListener("click", () => openTab(btn.getAttribute("data-tab")));
+    });
+
+    // mobile menu
+    const btnToggle = document.getElementById("btnToggleMenu");
+    const side = document.getElementById("sidebar");
+    function refreshMobile(){
+      if (!btnToggle || !side) return;
+      if (window.innerWidth <= 1100){
+        btnToggle.style.display = "inline-flex";
+      } else {
+        btnToggle.style.display = "none";
+        side.classList.remove("open");
+      }
+    }
+    window.addEventListener("resize", refreshMobile);
+    refreshMobile();
+
+    if (btnToggle && side){
+      btnToggle.addEventListener("click", () => side.classList.toggle("open"));
+    }
+
+    // espelha ações do topo no menu lateral
+    const btnRecTop = document.getElementById("btnRecarregar");
+    const btnSairTop = document.getElementById("btnSair");
+    const btnRecSide = document.getElementById("btnRecarregarSide");
+    const btnSairSide = document.getElementById("btnSairSide");
+
+    if (btnRecSide && btnRecTop) btnRecSide.addEventListener("click", () => btnRecTop.click());
+    if (btnSairSide && btnSairTop) btnSairSide.addEventListener("click", () => btnSairTop.click());
+
+    // subTop do menu lateral acompanha o do topo
+    const subTop = document.getElementById("subTop");
+    const subTopSide = document.getElementById("subTopSide");
+    if (subTop && subTopSide){
+      const obs = new MutationObserver(() => { subTopSide.textContent = subTop.textContent || ""; });
+      obs.observe(subTop, { childList: true, subtree: true, characterData: true });
+      subTopSide.textContent = subTop.textContent || "";
+    }
+  </script>
+
+  <!-- SEU SCRIPT PRINCIPAL -->
+  <script type="module" src="../js/aluno.js"></script>
+</body>
+</html>

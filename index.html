@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Portal do Aluno - Meta10</title>
+  <title>Portal - Meta10</title>
 
   <link rel="stylesheet" href="style.css" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -12,14 +12,13 @@
 <body>
   <main class="layout">
 
-    <!-- LADO ESQUERDO (somente texto, profissional) -->
     <section class="left">
       <div class="left-content">
         <h1 class="left-title">BEM-VINDO(A)</h1>
-        <h2 class="left-subtitle">AO PORTAL DO ALUNO</h2>
+        <h2 class="left-subtitle">AO PORTAL</h2>
 
         <p class="left-text">
-          Acompanhe aulas, materiais e atividades do reforço escolar com praticidade.
+          Acompanhe aulas, materiais e atividades do reforço escolar com praticidade e segurança.
         </p>
 
         <div class="left-badges">
@@ -30,27 +29,37 @@
       </div>
     </section>
 
-    <!-- LADO DIREITO (mantém seu visual premium com foto + card) -->
     <section class="right">
       <div class="login-card">
         <h2>Portal do Aluno</h2>
 
         <div class="input-group">
-          <input type="text" placeholder="Usuário ou Email" />
+          <label class="label" for="email">Usuário ou Email</label>
+          <input id="email" type="text" placeholder="ex: aluno@meta10.com" />
         </div>
 
         <div class="input-group">
-          <input type="password" placeholder="Senha" />
+          <label class="label" for="senha">Senha</label>
+          <input id="senha" type="password" placeholder="••••••••" />
         </div>
 
-        <button>Entrar</button>
+        <button id="btnEntrar" type="button">Entrar</button>
+
+        <p id="msg" class="msg"></p>
 
         <div class="forgot">
           <a href="#">Esqueceu sua senha?</a>
         </div>
+
+        <p class="small">
+          Ao entrar, você concorda com as regras de uso do portal.
+        </p>
       </div>
     </section>
 
   </main>
+
+  <script type="module" src="js/auth.js"></script>
+
 </body>
 </html>

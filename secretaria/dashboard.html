@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Secretaria - Meta10</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#0b1220;
+      --bg2:#0b1b3a;
+      --card: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.14);
+      --txt:#eaf2ff;
+      --muted: rgba(255,255,255,.74);
+
+      --c1:#ff5ea8;
+      --c2:#6c5ce7;
+      --c3:#00d2ff;
+      --c4:#ffd166;
+      --c5:#7CFF6B;
+      --c6:#ff7a59;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:Poppins, sans-serif;
+      color: var(--txt);
+      background:
+        radial-gradient(1400px 700px at 12% 10%, rgba(255,94,168,.22), transparent 62%),
+        radial-gradient(1200px 600px at 86% 18%, rgba(0,210,255,.18), transparent 60%),
+        radial-gradient(1100px 600px at 60% 92%, rgba(124,255,107,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg2), var(--bg1));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* ✅ Mais largo (usa a tela toda sem ficar “centralzinho”) */
+    .wrap{
+      max-width: 1560px;
+      margin: 18px auto;
+      padding: 0 18px;
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 20px;
+      padding: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 55px rgba(0,0,0,.25);
+      position:relative;
+      overflow:hidden;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(600px 160px at 20% 0%, rgba(255,209,102,.14), transparent 65%),
+                  radial-gradient(700px 220px at 80% 10%, rgba(0,210,255,.12), transparent 70%);
+      pointer-events:none;
+    }
+
+    /* Topbar */
+    .topbar{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .logo{
+      width:48px; height:48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      box-shadow: 0 16px 35px rgba(0,0,0,.35);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900;
+      letter-spacing:.5px;
+      flex:0 0 auto;
+    }
+    .brand h1{ font-size:18px; margin:0; line-height:1.1; }
+    .brand p{ margin:2px 0 0; font-size:12px; color: var(--muted); font-weight:800; }
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      transition: transform .12s ease, background .12s ease, opacity .12s ease;
+      user-select:none;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.14); }
+    .btn:disabled{ opacity:.65; cursor:not-allowed; transform:none; }
+
+    .btn.primary{
+      background: linear-gradient(90deg, var(--c4), var(--c3));
+      border: none;
+      color:#07101f;
+      box-shadow: 0 14px 35px rgba(0,0,0,.25);
+    }
+    .btn.danger{
+      background: rgba(255, 75, 75, .16);
+      border: 1px solid rgba(255, 75, 75, .30);
+      color:#ffd6d6;
+    }
+    .btn.small{ padding: 10px 12px; border-radius: 14px; font-size: 12px; }
+
+    /* Layout principal */
+    .grid{
+      display:grid;
+      grid-template-columns: 460px 1fr;
+      gap: 14px;
+      align-items:start;
+    }
+
+    .section-title{ margin:0 0 10px; font-size: 14px; opacity:.95; position:relative; z-index:1; }
+
+    label{ display:block; font-size: 12px; color: var(--muted); margin: 10px 0 6px; font-weight:900; position:relative; z-index:1; }
+
+    input, select{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.24);
+      color: white;
+      outline: none;
+      font-family:Poppins, sans-serif;
+      font-weight:800;
+      position:relative; z-index:1;
+    }
+    input::placeholder{ color: rgba(255,255,255,.55); }
+
+    .msg{ margin-top: 10px; font-size: 12px; font-weight: 900; position:relative; z-index:1; }
+    .msg.ok{ color: #7CFF6B; }
+    .msg.err{ color: #ff7a59; }
+
+    .hr{
+      border:0;
+      border-top:1px solid rgba(255,255,255,.10);
+      margin:14px 0;
+      position:relative; z-index:1;
+    }
+
+    /* Boxes */
+    .box{
+      margin-top: 12px;
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      position:relative; z-index:1;
+    }
+    .box-title{ margin: 0 0 8px; font-size: 12px; font-weight: 900; opacity: .95; }
+
+    .check-grid{
+      display:grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .check-grid label{
+      display:flex;
+      gap:8px;
+      align-items:center;
+      background: rgba(255,255,255,.08);
+      padding: 10px 12px;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,.12);
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+      margin: 0;
+      color: rgba(255,255,255,.9);
+      font-weight: 900;
+    }
+    .check-grid input{ width: 16px; height: 16px; accent-color: var(--c3); }
+
+    .hint{ display:block; margin-top: 8px; opacity:.8; font-size:12px; line-height: 1.35; color: rgba(255,255,255,.75); font-weight:800; }
+
+    /* Toolbar (tabs + busca) */
+    .toolbar{
+      display:flex;
+      gap: 10px;
+      align-items:center;
+      justify-content:space-between;
+      margin: 10px 0 14px;
+      flex-wrap: wrap;
+      position:relative; z-index:1;
+    }
+
+    .tabs{ display:flex; gap:8px; flex-wrap:wrap; }
+    .tab{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      color:#fff;
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor:pointer;
+      font-weight: 900;
+      font-size: 12px;
+      opacity: .92;
+      transition: transform .12s ease, background .12s ease;
+    }
+    .tab:hover{ transform: translateY(-1px); background: rgba(255,255,255,.12); }
+    .tab.active{
+      background: rgba(0,210,255,.18);
+      border-color: rgba(0,210,255,.35);
+      opacity: 1;
+    }
+
+    .search{
+      min-width: 240px;
+      flex: 1;
+      max-width: 440px;
+    }
+
+    /* Tabela premium */
+    .tableWrap{
+      overflow:auto;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.18);
+      position:relative; z-index:1;
+    }
+    table{
+      width:100%;
+      border-collapse: collapse;
+      min-width: 940px; /* evita quebrar feio */
+    }
+    th, td{
+      padding: 12px;
+      text-align: left;
+      font-size: 12px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      vertical-align: top;
+      font-weight: 900;
+    }
+    th{
+      font-size: 11px;
+      letter-spacing:.4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.78);
+      background: rgba(255,255,255,.04);
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+    tr:hover td{ background: rgba(255,255,255,.04); }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap: 6px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.14);
+      margin-right: 6px;
+      margin-bottom: 6px;
+      white-space: nowrap;
+    }
+    .pill.pink{ background: rgba(255,94,168,.20); }
+    .pill.blue{ background: rgba(0,210,255,.16); }
+    .pill.yellow{ background: rgba(255,209,102,.20); color:#fff; }
+    .pill.purple{ background: rgba(108,92,231,.18); }
+    .pill.green{ background: rgba(124,255,107,.14); }
+
+    td.actions-cell{ width: 170px; }
+    .row-actions{
+      display:flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: stretch;
+    }
+
+    @media (max-width: 980px){
+      .grid{ grid-template-columns: 1fr; }
+      .check-grid{ grid-template-columns: 1fr; }
+      .search{ max-width: 100%; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">M10</div>
+        <div>
+          <h1>Secretaria • Cadastro</h1>
+          <p>Alunos por <b>ano + turma</b>, professores por <b>matérias</b> e edição sem excluir.</p>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button id="btnRecarregar" class="btn" type="button">Recarregar</button>
+        <button id="btnSair" class="btn" type="button">Sair</button>
+      </div>
+    </div>
+
+    <!-- MAIN -->
+    <div class="grid">
+      <!-- FORM -->
+      <div class="card">
+        <p class="section-title">Cadastrar / Editar</p>
+
+        <label for="nome">Nome</label>
+        <input id="nome" type="text" placeholder="Ex: Maria Silva" />
+
+        <label for="email">Email</label>
+        <input id="email" type="email" placeholder="Ex: maria@meta10.com" />
+
+        <label for="senha">Senha</label>
+        <input id="senha" type="text" placeholder="Ex: 123456" />
+
+        <label for="perfil">Perfil</label>
+        <select id="perfil">
+          <option value="aluno">Aluno</option>
+          <option value="professor">Professor</option>
+          <option value="secretaria">Secretaria</option>
+        </select>
+
+        <!-- ALUNO -->
+        <div id="turmaBox" class="box" style="display:none;">
+          <p class="box-title">🎒 Dados do aluno</p>
+
+          <label for="ano">Ano/Série</label>
+          <select id="ano">
+            <option value="1ano">1º ano</option>
+            <option value="2ano">2º ano</option>
+            <option value="3ano">3º ano</option>
+            <option value="4ano">4º ano</option>
+            <option value="5ano">5º ano</option>
+            <option value="6ano">6º ano</option>
+            <option value="7ano">7º ano</option>
+            <option value="8ano">8º ano</option>
+            <option value="9ano">9º ano</option>
+            <option value="1em">1º ano EM</option>
+          </select>
+
+          <label for="turma">Turma</label>
+          <select id="turma">
+            <option value="A">Turma A</option>
+            <option value="B">Turma B</option>
+            <option value="C">Turma C</option>
+          </select>
+
+          <label for="statusFinalAno">Status final do ano</label>
+          <select id="statusFinalAno">
+            <option value="em_andamento">Em andamento</option>
+            <option value="aprovado">Aprovado</option>
+            <option value="reprovado">Reprovado</option>
+          </select>
+
+          <small class="hint">No fim do ano, você marca aprovado/reprovado (base da atualização anual).</small>
+        </div>
+
+        <!-- PROFESSOR -->
+        <div id="materiasBox" class="box" style="display:none;">
+          <p class="box-title">👨‍🏫 Matérias do professor</p>
+
+          <div class="check-grid">
+            <label><input type="checkbox" name="materiasProf" value="Matemática"> Matemática</label>
+            <label><input type="checkbox" name="materiasProf" value="Português"> Português</label>
+            <label><input type="checkbox" name="materiasProf" value="Ciências"> Ciências</label>
+            <label><input type="checkbox" name="materiasProf" value="História"> História</label>
+            <label><input type="checkbox" name="materiasProf" value="Geografia"> Geografia</label>
+            <label><input type="checkbox" name="materiasProf" value="Inglês"> Inglês</label>
+            <label><input type="checkbox" name="materiasProf" value="Redação"> Redação</label>
+            <label><input type="checkbox" name="materiasProf" value="Artes"> Artes</label>
+          </div>
+
+          <small class="hint">Professor precisa ter pelo menos 1 matéria.</small>
+        </div>
+
+        <!-- MATÉRIAS DO ALUNO -->
+        <div id="materiasAlunoBox" class="box" style="display:none;">
+          <p class="box-title">📚 Matérias do aluno</p>
+
+          <div class="check-grid">
+            <label><input type="checkbox" name="materiasAluno" value="Matemática"> Matemática</label>
+            <label><input type="checkbox" name="materiasAluno" value="Português"> Português</label>
+            <label><input type="checkbox" name="materiasAluno" value="Ciências"> Ciências</label>
+            <label><input type="checkbox" name="materiasAluno" value="História"> História</label>
+            <label><input type="checkbox" name="materiasAluno" value="Geografia"> Geografia</label>
+            <label><input type="checkbox" name="materiasAluno" value="Inglês"> Inglês</label>
+            <label><input type="checkbox" name="materiasAluno" value="Redação"> Redação</label>
+            <label><input type="checkbox" name="materiasAluno" value="Artes"> Artes</label>
+          </div>
+
+          <small class="hint">Aluno precisa estar em pelo menos 1 matéria.</small>
+        </div>
+
+        <button id="btnCriar" class="btn primary" type="button">Criar usuário</button>
+
+        <div id="editActions" style="display:none; margin-top:10px; display:flex; gap:10px; position:relative; z-index:1;">
+          <button id="btnSalvar" class="btn primary" type="button" style="flex:1;">Salvar alterações</button>
+          <button id="btnCancelar" class="btn" type="button" style="flex:1;">Cancelar</button>
+        </div>
+
+        <p id="msg" class="msg" aria-live="polite"></p>
+
+        <div class="hr"></div>
+
+        <button id="btnSenhaAuto" class="btn" type="button">Gerar senha automática</button>
+
+        <p style="font-size:12px; color: rgba(255,255,255,.65); font-weight:800; margin:10px 0 0; position:relative; z-index:1;">
+          Dica: depois a gente troca isso por Firebase Auth (senha segura).
+        </p>
+      </div>
+
+      <!-- LISTA -->
+      <div class="card">
+        <p class="section-title">Usuários cadastrados</p>
+
+        <div class="toolbar">
+          <div class="tabs">
+            <button class="tab active" type="button" data-filter="todos">Todos</button>
+            <button class="tab" type="button" data-filter="aluno">Alunos</button>
+            <button class="tab" type="button" data-filter="professor">Professores</button>
+            <button class="tab" type="button" data-filter="secretaria">Secretaria</button>
+          </div>
+
+          <input id="busca" class="search" type="text" placeholder="Buscar por nome ou email..." />
+        </div>
+
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Nome</th>
+                <th>Email</th>
+                <th>Perfil</th>
+                <th>Ano/Turma</th>
+                <th>Matérias</th>
+                <th style="width:190px;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaUsers"></tbody>
+          </table>
+        </div>
+
+        <p style="font-size:12px; color: rgba(255,255,255,.65); font-weight:800; margin:12px 0 0; position:relative; z-index:1;">
+          * Para teste, a senha fica no banco. Depois vamos migrar para Auth.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/secretaria.js"></script>
+</body>
+</html>

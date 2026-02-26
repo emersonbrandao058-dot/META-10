@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Professor - Meta10</title>
+
+  <link rel="stylesheet" href="../style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#0b1220;
+      --bg2:#0b1b3a;
+
+      --card: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.14);
+
+      --txt:#eaf2ff;
+      --muted: rgba(255,255,255,.72);
+
+      --c1:#ff5ea8;
+      --c2:#6c5ce7;
+      --c3:#00d2ff;
+      --c4:#ffd166;
+      --c5:#7CFF6B;
+      --c6:#ff7a59;
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{ height:100%; }
+    body{
+      margin:0;
+      font-family:Poppins, sans-serif;
+      color: var(--txt);
+      background:
+        radial-gradient(1400px 700px at 12% 10%, rgba(255,94,168,.20), transparent 62%),
+        radial-gradient(1200px 600px at 86% 18%, rgba(0,210,255,.16), transparent 60%),
+        radial-gradient(1100px 600px at 60% 92%, rgba(124,255,107,.10), transparent 60%),
+        linear-gradient(180deg, var(--bg2), var(--bg1));
+      overflow-x:hidden;
+    }
+
+    /* mais “largo” igual você pediu */
+    .wrap{
+      max-width: 1500px;
+      margin: 18px auto;
+      padding: 0 14px;
+    }
+
+    /* Topbar */
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; min-width: 240px; }
+    .logo{
+      width:48px; height:48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      box-shadow: 0 16px 35px rgba(0,0,0,.35);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900;
+      letter-spacing:.5px;
+    }
+    .brand h1{ font-size:18px; margin:0; line-height:1.1; }
+    .brand p{ margin:2px 0 0; font-size:12px; color: var(--muted); font-weight:800; }
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      transition: transform .12s ease, background .12s ease;
+      font-family:Poppins, sans-serif;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.14); }
+    .btn.primary{
+      background: linear-gradient(90deg, var(--c4), var(--c3));
+      border: none;
+      color:#07101f;
+      box-shadow: 0 14px 35px rgba(0,0,0,.25);
+    }
+
+    /* Cards */
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 20px;
+      padding: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 55px rgba(0,0,0,.25);
+      position:relative;
+      overflow:hidden;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background:
+        radial-gradient(600px 160px at 18% 0%, rgba(255,209,102,.16), transparent 65%),
+        radial-gradient(700px 220px at 84% 10%, rgba(0,210,255,.12), transparent 70%);
+      pointer-events:none;
+    }
+
+    .card > *{ position:relative; z-index:1; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 420px 1fr;
+      gap: 14px;
+      align-items:start;
+    }
+
+    .titleRow{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 10px;
+    }
+    .h3{
+      margin:0;
+      font-size:14px;
+      font-weight: 900;
+      letter-spacing:.2px;
+    }
+    .subHint{
+      margin:6px 0 0;
+      font-size:12px;
+      color: rgba(255,255,255,.70);
+      font-weight:800;
+      line-height:1.35;
+    }
+
+    /* Inputs */
+    .field{ margin-top: 10px; }
+    label{
+      display:block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 0 0 6px;
+      font-weight:900;
+    }
+    input, select{
+      width:100%;
+      padding: 12px 12px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,.16);
+      background: rgba(0,0,0,.24);
+      color: white;
+      outline: none;
+      font-family:Poppins, sans-serif;
+      font-weight:800;
+    }
+    input::placeholder{ color: rgba(255,255,255,.55); }
+
+    /* Mensagens */
+    .msg{ min-height: 18px; margin-top: 10px; font-size: 13px; font-weight: 800; }
+    .msg.ok{ color: #7CFF6B; }
+    .msg.err{ color: #ff6b6b; }
+
+    /* Tabela premium */
+    .tableWrap{
+      overflow:auto;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.12);
+      background: rgba(0,0,0,.16);
+    }
+    table{
+      width:100%;
+      border-collapse: collapse;
+      min-width: 760px;
+    }
+    th, td{
+      padding: 12px 12px;
+      text-align: left;
+      font-size: 13px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+      vertical-align: top;
+    }
+    th{
+      font-size: 12px;
+      letter-spacing:.4px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,.85);
+      background: rgba(255,255,255,.06);
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      backdrop-filter: blur(10px);
+    }
+    tr:hover td{
+      background: rgba(255,255,255,.06);
+    }
+
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 7px 10px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.14);
+      color: white;
+      white-space: nowrap;
+    }
+
+    .link{
+      color:#8bd0ff;
+      text-decoration:none;
+      font-weight:900;
+    }
+    .link:hover{ text-decoration: underline; }
+
+    .btnDanger{
+      background: rgba(255, 75, 75, .18);
+      border: 1px solid rgba(255, 75, 75, .20);
+      color:#ffd6d6;
+      padding: 10px 12px;
+      border-radius: 14px;
+      font-weight: 900;
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease;
+      font-family:Poppins, sans-serif;
+    }
+    .btnDanger:hover{ transform: translateY(-1px); background: rgba(255, 75, 75, .22); }
+
+    .footerNote{
+      margin-top:10px;
+      font-size:12px;
+      color: rgba(255,255,255,.70);
+      font-weight:800;
+      line-height:1.35;
+    }
+
+    /* Responsivo */
+    @media (max-width: 1100px){
+      .grid{ grid-template-columns: 1fr; }
+      table{ min-width: 720px; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">M10</div>
+        <div>
+          <h1>Professor • Aulas</h1>
+          <p>Logado como: <b id="profEmail">—</b></p>
+        </div>
+      </div>
+
+      <div style="display:flex; gap:10px;">
+        <button id="btnRecarregar" class="btn" type="button">Recarregar</button>
+        <button id="btnSair" class="btn" type="button">Sair</button>
+      </div>
+    </div>
+
+    <div class="grid">
+      <!-- FORM AULA -->
+      <div class="card">
+        <div class="titleRow">
+          <div>
+            <p class="h3">Adicionar aula</p>
+            <p class="subHint">Publique uma aula por link (YouTube / Drive / MP4 etc.).</p>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="titulo">Título</label>
+          <input id="titulo" type="text" placeholder="Ex: Aula 1 - Frações" />
+        </div>
+
+        <div class="field">
+          <label for="tipo">Tipo</label>
+          <select id="tipo">
+            <option value="aula">Aula</option>
+            <option value="complementar">Complementar</option>
+            <option value="revisao">Revisão</option>
+            <option value="simulado">Simulado</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="materia">Matéria</label>
+          <select id="materia">
+            <option value="">Carregando...</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="serie">Série</label>
+          <select id="serie">
+            <option value="1ano">1º ano</option>
+            <option value="2ano">2º ano</option>
+            <option value="3ano">3º ano</option>
+            <option value="4ano">4º ano</option>
+            <option value="5ano">5º ano</option>
+            <option value="6ano">6º ano</option>
+            <option value="7ano">7º ano</option>
+            <option value="8ano">8º ano</option>
+            <option value="9ano">9º ano</option>
+            <option value="1em">1º ano EM</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="videoUrl">Link do vídeo (YouTube / Vimeo / MP4 / Drive etc.)</label>
+          <input id="videoUrl" type="url" placeholder="Ex: https://www.youtube.com/watch?v=..." />
+        </div>
+
+        <button id="btnCriarAula" class="btn primary" type="button" style="width:100%; margin-top:14px;">
+          Publicar aula
+        </button>
+
+        <p id="msg" class="msg" aria-live="polite"></p>
+
+        <p class="footerNote">
+          Dica: YouTube “Não listado” é ótimo. Drive funciona melhor com <b>/preview</b>.
+        </p>
+      </div>
+
+      <!-- LISTA AULAS -->
+      <div class="card">
+        <div class="titleRow">
+          <div>
+            <p class="h3">Minhas aulas</p>
+            <p class="subHint">Gerencie suas aulas publicadas (editar depois a gente também consegue).</p>
+          </div>
+        </div>
+
+        <div class="tableWrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Título</th>
+                <th>Matéria</th>
+                <th>Série</th>
+                <th>Tipo</th>
+                <th>Vídeo</th>
+                <th style="width:140px;">Ações</th>
+              </tr>
+            </thead>
+            <tbody id="tabelaAulas"></tbody>
+          </table>
+        </div>
+
+        <p class="footerNote">
+          Se a tabela ficar larga, pode rolar pro lado (fica bonito e não quebra no celular).
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/professor.js"></script>
+</body>
+</html>

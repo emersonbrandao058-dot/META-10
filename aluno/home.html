@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Aluno • Início - Meta10</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;800&display=swap" rel="stylesheet">
+
+  <style>
+    :root{
+      --bg1:#0b1220;
+      --bg2:#0b1b3a;
+      --card: rgba(255,255,255,.08);
+      --stroke: rgba(255,255,255,.14);
+      --txt:#eaf2ff;
+      --muted: rgba(255,255,255,.74);
+
+      --c1:#ff5ea8;
+      --c2:#6c5ce7;
+      --c3:#00d2ff;
+      --c4:#ffd166;
+      --c5:#7CFF6B;
+      --c6:#ff7a59;
+    }
+
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family:Poppins, sans-serif;
+      color: var(--txt);
+      background:
+        radial-gradient(1400px 700px at 12% 10%, rgba(255,94,168,.22), transparent 62%),
+        radial-gradient(1200px 600px at 86% 18%, rgba(0,210,255,.18), transparent 60%),
+        radial-gradient(1100px 600px at 60% 92%, rgba(124,255,107,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg2), var(--bg1));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    .wrap{
+      max-width: 1500px;
+      margin: 16px auto;
+      padding: 0 16px;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom: 14px;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .logo{
+      width:48px; height:48px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      box-shadow: 0 16px 35px rgba(0,0,0,.35);
+      display:flex; align-items:center; justify-content:center;
+      font-weight:900;
+      letter-spacing:.5px;
+    }
+    .brand h1{ font-size:18px; margin:0; line-height:1.1; }
+    .brand p{ margin:2px 0 0; font-size:12px; color: var(--muted); }
+
+    .btn{
+      border:0;
+      cursor:pointer;
+      padding: 12px 14px;
+      border-radius: 16px;
+      font-weight: 900;
+      color: white;
+      background: rgba(255,255,255,.10);
+      border: 1px solid rgba(255,255,255,.14);
+      transition: transform .12s ease, background .12s ease;
+    }
+    .btn:hover{ transform: translateY(-1px); background: rgba(255,255,255,.14); }
+    .btn.primary{
+      background: linear-gradient(90deg, var(--c4), var(--c3));
+      border: none;
+      color:#07101f;
+      box-shadow: 0 14px 35px rgba(0,0,0,.25);
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--stroke);
+      border-radius: 20px;
+      padding: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 20px 55px rgba(0,0,0,.25);
+      position:relative;
+      overflow:hidden;
+    }
+    .card::after{
+      content:"";
+      position:absolute;
+      inset:-2px;
+      background: radial-gradient(600px 160px at 20% 0%, rgba(255,209,102,.18), transparent 65%),
+                  radial-gradient(700px 220px at 80% 10%, rgba(0,210,255,.14), transparent 70%);
+      pointer-events:none;
+    }
+
+    .hero{
+      display:grid;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .hero-left{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      position:relative;
+      z-index:1;
+    }
+
+    .avatar{
+      width:72px; height:72px;
+      border-radius: 22px;
+      background: linear-gradient(135deg, var(--c5), var(--c3));
+      display:flex; align-items:center; justify-content:center;
+      font-size:28px;
+      box-shadow: 0 16px 36px rgba(0,0,0,.35);
+      flex:0 0 auto;
+    }
+
+    .hello h2{ margin:0; font-size:18px; }
+    .badges{
+      margin-top:8px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      position:relative;
+      z-index:1;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding: 9px 11px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 900;
+      background: rgba(0,0,0,.18);
+      border: 1px solid rgba(255,255,255,.14);
+      color: white;
+    }
+    .pill.c1{ background: rgba(255,94,168,.20); }
+    .pill.c2{ background: rgba(108,92,231,.20); }
+    .pill.c3{ background: rgba(0,210,255,.16); }
+    .pill.c4{ background: rgba(255,209,102,.20); color:#fff; }
+
+    .mascot{
+      margin-top: 10px;
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      padding: 12px 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      position:relative;
+      z-index:1;
+    }
+    .mascot .face{
+      width:44px; height:44px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, var(--c1), var(--c4));
+      display:flex; align-items:center; justify-content:center;
+      font-size:22px;
+      box-shadow: 0 12px 26px rgba(0,0,0,.25);
+      flex:0 0 auto;
+    }
+    .mascot .text{
+      font-size: 12px;
+      color: rgba(255,255,255,.85);
+      font-weight: 800;
+      line-height: 1.35;
+    }
+
+    .mini-grid{
+      display:grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      position:relative;
+      z-index:1;
+    }
+    .mini{
+      padding: 14px;
+      border-radius: 20px;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.08);
+      box-shadow: 0 20px 55px rgba(0,0,0,.18);
+      position:relative;
+      overflow:hidden;
+    }
+    .mini::before{
+      content:"";
+      position:absolute;
+      inset:-1px;
+      background: radial-gradient(220px 90px at 10% 0%, rgba(124,255,107,.16), transparent 70%),
+                  radial-gradient(220px 90px at 90% 0%, rgba(0,210,255,.14), transparent 70%);
+      pointer-events:none;
+    }
+    .mini .k{ font-size: 12px; color: var(--muted); margin:0; position:relative; z-index:1; font-weight:800; }
+    .mini .v{ font-size: 20px; font-weight: 900; margin:6px 0 0; position:relative; z-index:1; }
+
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      align-items:start;
+    }
+
+    .section-title{
+      margin:0 0 10px;
+      font-size: 14px;
+      opacity:.95;
+      position:relative;
+      z-index:1;
+      font-weight: 900;
+    }
+
+    .quick{
+      display:grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 10px;
+      position:relative;
+      z-index:1;
+    }
+
+    .qitem{
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      border-radius: 18px;
+      padding: 12px;
+      cursor:pointer;
+      transition: transform .12s ease, background .12s ease;
+      min-height: 96px;
+      display:flex;
+      flex-direction:column;
+      gap:6px;
+      justify-content:center;
+      text-align:left;
+    }
+    .qitem:hover{ transform: translateY(-2px); background: rgba(255,255,255,.10); }
+    .qitem .ico{ font-size:22px; }
+    .qitem .t{ font-weight:900; font-size:12px; margin:0; }
+    .qitem .s{ margin:0; font-size:11px; color: rgba(255,255,255,.75); font-weight:800; }
+
+    .notice{
+      position:relative;
+      z-index:1;
+      border: 1px solid rgba(255,255,255,.14);
+      background: rgba(0,0,0,.18);
+      border-radius: 18px;
+      padding: 14px;
+      min-height: 140px;
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      justify-content:center;
+    }
+    .notice .empty{
+      background: rgba(0,210,255,.14);
+      border: 1px solid rgba(0,210,255,.22);
+      padding: 12px;
+      border-radius: 14px;
+      font-weight: 900;
+      font-size: 12px;
+      color: rgba(255,255,255,.95);
+    }
+
+    @media (max-width: 1100px){
+      .hero{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+      .quick{ grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .mini-grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="wrap">
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="brand">
+        <div class="logo">M10</div>
+        <div>
+          <h1>Aluno • Início</h1>
+          <p id="subTop">Carregando seus dados...</p>
+        </div>
+      </div>
+      <div style="display:flex; gap:10px;">
+        <button id="btnIrAulas" class="btn primary" type="button">▶ Ir para Videoaulas</button>
+        <button id="btnSair" class="btn" type="button">Sair</button>
+      </div>
+    </div>
+
+    <!-- HERO -->
+    <div class="hero">
+      <div class="card">
+        <div class="hero-left">
+          <div class="avatar">🏠</div>
+
+          <div class="hello" style="flex:1;">
+            <h2 id="ola">Olá! 👋</h2>
+
+            <div class="badges">
+              <span class="pill c1" id="badgeTurma">🏫 Turma —</span>
+              <span class="pill c3" id="badgeMaterias">📚 Matérias —</span>
+              <span class="pill c2" id="badgeStreak">🔥 Sequência: 0</span>
+              <span class="pill c4" id="badgeMissao">🎯 Missão: assistir 1 aula</span>
+            </div>
+
+            <div class="mascot">
+              <div class="face" id="mascotFace">🦊</div>
+              <div class="text" id="mascotText">Tô carregando tudo aqui… já já a gente começa! ✨</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="mini-grid">
+        <div class="mini">
+          <p class="k">Aulas disponíveis</p>
+          <p class="v" id="kpiAulas">0</p>
+        </div>
+        <div class="mini">
+          <p class="k">Assistidas</p>
+          <p class="v" id="kpiAssistidas">0</p>
+        </div>
+        <div class="mini">
+          <p class="k">Pontos</p>
+          <p class="v" id="kpiPontos">0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CONTEÚDO -->
+    <div class="grid">
+      <div class="card">
+        <p class="section-title">Atalhos rápidos</p>
+
+        <div class="quick">
+          <div class="qitem" id="qAulas">
+            <div class="ico">🎬</div>
+            <p class="t">Videoaulas</p>
+            <p class="s">Assistir aulas</p>
+          </div>
+
+          <div class="qitem" id="qQuestoes">
+            <div class="ico">🧠</div>
+            <p class="t">Questões</p>
+            <p class="s">Treinar agora</p>
+          </div>
+
+          <div class="qitem" id="qMateriais">
+            <div class="ico">📄</div>
+            <p class="t">Materiais</p>
+            <p class="s">PDFs e extras</p>
+          </div>
+
+          <div class="qitem" id="qDesempenho">
+            <div class="ico">📈</div>
+            <p class="t">Desempenho</p>
+            <p class="s">Progresso</p>
+          </div>
+
+          <div class="qitem" id="qConfig">
+            <div class="ico">⚙️</div>
+            <p class="t">Config</p>
+            <p class="s">Preferências</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <p class="section-title">Mural de avisos</p>
+        <div class="notice">
+          <div class="empty" id="muralText">Sem avisos no momento ✅</div>
+          <div style="font-size:12px; color: rgba(255,255,255,.75); font-weight:800;">
+            (Depois a gente pode puxar avisos do Firestore: coleção <b>avisos</b>)
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="../js/homeAluno.js"></script>
+</body>
+</html>

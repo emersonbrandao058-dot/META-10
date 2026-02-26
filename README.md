@@ -1,4 +1,4 @@
-# 🎓 Meta10 - Plataforma Educacional
+- Plataforma Educacional
 
 Sistema web educacional desenvolvido para gerenciamento de alunos, professores e secretaria, com foco em organização de aulas, progresso e autenticação segura.
 
